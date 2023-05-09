@@ -22,3 +22,11 @@ Install Jenkins
 
 https://www.jenkins.io/doc/book/installing/kubernetes/
 
+Kafka - strimzi.io
+
+https://strimzi.io/
+
+Ansible
+
+https://docs.ansible.com/index.html
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible
