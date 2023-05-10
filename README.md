@@ -45,3 +45,9 @@ Ansible
 
 https://docs.ansible.com/index.html
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible
+
+# Install helm
+
+```
+sudo snap install helm --classic
+```
