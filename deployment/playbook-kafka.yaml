@@ -1,0 +1,30 @@
+- name: kafka
+  hosts: localhost
+  tasks:
+    - name: Ensure kafka namespace exists
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: kafka
+        state: present
+
+    - name: Install strimzi-kafka-operator helm chart
+      kubernetes.core.helm:
+        release_name: kafka
+        namespace: kafka
+        chart_ref: charts/kafka/strimzi-kafka-operator
+
+    - name: Install CRDs
+      kubernetes.core.k8s:
+        src: "{{ item }}"
+      with_fileglob:
+        - "charts/kafka/strimzi-kafka-operator/crds/*"
+
+    - name: Ensure kafka exists
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Kafka
+        namespace: kafka
+        state: present
+        template:
+          - charts/kafka/kafka-persistent.yaml
