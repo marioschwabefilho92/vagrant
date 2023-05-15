@@ -1,0 +1,26 @@
+- name: kafka-ui
+  hosts: localhost
+  tasks:
+    - name: Ensure kafka namespace exists
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: kafka
+        state: present
+
+    - name: Install kafka-ui helm chart
+      kubernetes.core.helm:
+        release_name: kafka-ui
+        namespace: kafka
+        chart_ref: charts/kafka/kafka-ui
+        values_files:
+        - charts/kafka/kafka-ui/data-stream-values.yaml
+
+#    - name: Ensure kafka-ui exists
+#      kubernetes.core.k8s:
+#        api_version: v1
+#        kind: Kafka
+#        namespace: kafka
+#        state: present
+#        template:
+#          - charts/kafka/kafka-persistent.yaml

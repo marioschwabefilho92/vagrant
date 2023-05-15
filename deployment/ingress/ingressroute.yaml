@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kafka-ui
+  namespace: kafka
+spec:
+  entryPoints:
+  - kafka-ui
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/`)
+    services:
+    - kind: Service
+      name: kafka-ui
+      port: 8080

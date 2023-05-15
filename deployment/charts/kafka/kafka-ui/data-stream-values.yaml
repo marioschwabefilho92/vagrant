@@ -1,0 +1,39 @@
+replicaCount: 1
+
+image:
+  registry: docker.io
+  repository: provectuslabs/kafka-ui
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+networkPolicy:
+  enabled: true
+  ingressRules:
+    customRules:
+      - ports:
+        - port: 8080
+          protocol: TCP
+
+probes:
+  useHttpsScheme: false
+
+service:
+  type: ClusterIP
+  port: 8080
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+env:
+  - name: KAFKA_CLUSTERS_0_NAME
+    value: "kafka"
+  - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+    value: "kafka:9092"
+  - name: LOGGING_LEVEL_ROOT
+    value: "info"
+  - name: LOGGING_LEVEL_COM_PROVECTUS
+    value: "info"
