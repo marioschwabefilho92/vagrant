@@ -63,5 +63,5 @@ sudo snap install helm --classic
 https://github.com/ahmetb/kubectx
 
 ```
-sudo apt install kubectx
+sudo snap install kubectx --classic
 ```
