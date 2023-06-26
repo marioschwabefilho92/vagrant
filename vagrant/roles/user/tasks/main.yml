@@ -1,0 +1,40 @@
+- name: Make sure we have a dev group
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: Allow group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%{{ group }}'
+    line: '%{{ group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: Allow user sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^Defaults:{{ user }}'
+    line: 'Defaults:{{ user }} !requiretty'
+    validate: 'visudo -cf %s'
+
+- name: Create dev user
+  user:
+    name: "{{ user }}"
+    password: "{{ password | password_hash('sha512') }}"
+    update_password: always
+    group: "{{ group }}"
+    state: present
+
+- name: Create scripts directory
+  file:
+    path: "{{ scripts_directory }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    state: directory
+
+- name: Set default favorites left bar
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings set org.gnome.shell favorite-apps "{{ favorite_apps }}"

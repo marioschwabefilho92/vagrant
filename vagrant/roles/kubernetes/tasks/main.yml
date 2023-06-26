@@ -1,0 +1,52 @@
+- name: Update the apt package index and install packages needed to use the Kubernetes apt repository
+  apt:
+    update_cache: yes
+    name:
+      - ca-certificates
+      - curl
+    state: present
+
+- name: Copy download_google_cloud_sign_key.sh script
+  copy:
+    src: files/download_google_cloud_sign_key.sh
+    dest:  "{{scripts_directory}}/download_google_cloud_sign_key.sh"
+    mode: "0750"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Download the Google Cloud public signing key
+  command: bash "{{scripts_directory}}/download_google_cloud_sign_key.sh"
+
+- name: Copy add_kubernetes_repository.sh script
+  copy:
+    src: files/add_kubernetes_repository.sh
+    dest:  "{{scripts_directory}}/add_kubernetes_repository.sh"
+    mode: "0750"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Set up the repository
+  command: bash "{{scripts_directory}}/add_kubernetes_repository.sh"
+
+- name: Update apt package index with the new repository and install kubectl
+  apt:
+    update_cache: yes
+    name:
+      - kubectl
+    state: present
+
+- name: Copy install_minikube.sh script
+  copy:
+    src: files/install_minikube.sh
+    dest:  "{{scripts_directory}}/install_minikube.sh"
+    mode: "0750"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Install minikube
+  command: bash "{{scripts_directory}}/install_minikube.sh"
+
+- name: Install kubectx with option --classic
+  community.general.snap:
+    name: kubectx
+    classic: true

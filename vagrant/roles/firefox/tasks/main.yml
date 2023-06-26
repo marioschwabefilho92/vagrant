@@ -1,0 +1,16 @@
+- name: Install firefox
+  apt:
+    name:
+      - firefox
+    state: present
+
+- name: Get default favorites left bar and add firefox
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'firefox_firefox.desktop']/"
+  register: new_favorites_bar
+
+- name: Set new favorites left bar
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"

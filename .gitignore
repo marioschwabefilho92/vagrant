@@ -1,0 +1,4 @@
+# vagrant ignore
+vagrant/.vagrant/
+*.vdi
+minikube-linux-amd64

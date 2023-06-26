@@ -1,0 +1,32 @@
+- hosts: all
+  connection: local
+  become: yes
+  gather_facts: no
+
+  vars_files:
+    - common_vars.yml
+
+  roles:
+  - role: ubuntu-desktop
+    tags: [ required, ubuntu-desktop ]
+
+  - role: user
+    tags: [ required, user ]
+
+  - role: firefox
+    tags: [ optional, firefox ]
+
+  - role: chrome
+    tags: [ optional, chrome ]
+
+  - role: pycharm
+    tags: [ optional, pycharm ]
+
+  - role: vscode
+    tags: [ optional, vscode ]
+
+  - role: docker
+    tags: [ optional, docker ]
+
+  - role: kubernetes
+    tags: [ optional, kubernetes ]

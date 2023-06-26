@@ -1,0 +1,41 @@
+- name: Update the apt package index and install packages to allow apt to use a repository over HTTPS
+  apt:
+    update_cache: yes
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+
+- name: Copy add_docker_gpg_key.sh script
+  copy:
+    src: files/add_docker_gpg_key.sh
+    dest:  "{{scripts_directory}}/add_docker_gpg_key.sh"
+    mode: "0750"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Add Docker’s official GPG key
+  command: bash "{{scripts_directory}}/add_docker_gpg_key.sh"
+
+- name: Copy set_up_docker_repository.sh script
+  copy:
+    src: files/set_up_docker_repository.sh
+    dest:  "{{scripts_directory}}/set_up_docker_repository.sh"
+    mode: "0750"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Set up the repository
+  command: bash "{{scripts_directory}}/set_up_docker_repository.sh"
+
+- name: Update the apt package index and install Docker Engine, containerd, and Docker Compose.
+  apt:
+    update_cache: yes
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present

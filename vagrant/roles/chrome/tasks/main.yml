@@ -1,0 +1,32 @@
+- name: Install apt-transport-https
+  ansible.builtin.apt:
+    state: latest
+    update_cache: true
+
+- name: Add Apt signing key
+  ansible.builtin.apt_key:
+    url: "https://dl.google.com/linux/linux_signing_key.pub"
+    state: present
+
+- name: Add repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+    filename: google-chrome
+
+- name: Install google-chrome-stable
+  ansible.builtin.apt:
+    name: "google-chrome-stable"
+    state: latest
+    update_cache: true
+
+- name: Get default favorites left bar and add chrome
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'google-chrome.desktop']/"
+  register: new_favorites_bar
+
+- name: Set new favorites left bar
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
