@@ -50,3 +50,17 @@
   community.general.snap:
     name: kubectx
     classic: true
+
+- name: Install python3-pip
+  apt:
+    update_cache: yes
+    name:
+      - python3-pip
+    state: present
+
+- name: Install pre-requisites
+  ansible.builtin.pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes
