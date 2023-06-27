@@ -12,19 +12,14 @@
       kubernetes.core.helm:
         release_name: kafka
         namespace: kafka
-        chart_ref: charts/kafka/strimzi-kafka-operator
+        chart_ref: charts/strimzi-kafka-operator
 
     - name: Install CRDs
       kubernetes.core.k8s:
         src: "{{ item }}"
       with_fileglob:
-        - "charts/kafka/strimzi-kafka-operator/crds/*"
+        - "charts/strimzi-kafka-operator/crds/*"
 
-    - name: Ensure kafka exists
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Kafka
-        namespace: kafka
-        state: present
-        template:
-          - charts/kafka/kafka-persistent.yaml
+  roles:
+  - role: kafka
+    tags: [ required, kafka ]

@@ -17,7 +17,7 @@ rules:
 - apiGroups:
   - "rbac.authorization.k8s.io"
   resources:
-    # The cluster operator needs to access and manage rolebindings to grant Strimzi charts cluster permissions
+    # The cluster operator needs to access and manage rolebindings to grant Strimzi components cluster permissions
   - rolebindings
   verbs:
   - get
@@ -45,16 +45,16 @@ rules:
   resources:
     # The cluster operator needs to access and delete pods, this is to allow it to monitor pod health and coordinate rolling updates
   - pods
-    # The cluster operator needs to access and manage service accounts to grant Strimzi charts cluster permissions
+    # The cluster operator needs to access and manage service accounts to grant Strimzi components cluster permissions
   - serviceaccounts
-    # The cluster operator needs to access and manage config maps for Strimzi charts configuration
+    # The cluster operator needs to access and manage config maps for Strimzi components configuration
   - configmaps
-    # The cluster operator needs to access and manage services and endpoints to expose Strimzi charts to network traffic
+    # The cluster operator needs to access and manage services and endpoints to expose Strimzi components to network traffic
   - services
   - endpoints
     # The cluster operator needs to access and manage secrets to handle credentials
   - secrets
-    # The cluster operator needs to access and manage persistent volume claims to bind them to Strimzi charts for persistent data
+    # The cluster operator needs to access and manage persistent volume claims to bind them to Strimzi components for persistent data
   - persistentvolumeclaims
   verbs:
   - get
@@ -67,13 +67,13 @@ rules:
 - apiGroups:
   - "apps"
   resources:
-    # The cluster operator needs to access and manage deployments to run deployment based Strimzi charts
+    # The cluster operator needs to access and manage deployments to run deployment based Strimzi components
   - deployments
   - deployments/scale
   - deployments/status
-    # The cluster operator needs to access and manage stateful sets to run stateful sets based Strimzi charts
+    # The cluster operator needs to access and manage stateful sets to run stateful sets based Strimzi components
   - statefulsets
-    # The cluster operator needs to access replica-sets to manage Strimzi charts and to determine error states
+    # The cluster operator needs to access replica-sets to manage Strimzi components and to determine error states
   - replicasets
   verbs:
   - get
@@ -109,7 +109,7 @@ rules:
 - apiGroups:
   - networking.k8s.io
   resources:
-    # The cluster operator needs to access and manage network policies to lock down communication between Strimzi charts
+    # The cluster operator needs to access and manage network policies to lock down communication between Strimzi components
   - networkpolicies
     # The cluster operator needs to access and manage ingresses which allow external access to the services in a cluster
   - ingresses
@@ -124,7 +124,7 @@ rules:
 - apiGroups:
   - route.openshift.io
   resources:
-    # The cluster operator needs to access and manage routes to expose Strimzi charts for external access
+    # The cluster operator needs to access and manage routes to expose Strimzi components for external access
   - routes
   - routes/custom-host
   verbs:

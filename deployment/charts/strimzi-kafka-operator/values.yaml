@@ -10,13 +10,15 @@ watchAnyNamespace: false
 
 defaultImageRegistry: quay.io
 defaultImageRepository: strimzi
-defaultImageTag: 0.34.0
+defaultImageTag: 0.35.1
 
 image:
   registry: ""
   repository: ""
   name: operator
   tag: ""
+  # imagePullSecrets:
+  #   - name: secretname
 logVolume: co-config-volume
 logConfigMap: strimzi-cluster-operator
 logConfiguration: ""
@@ -48,7 +50,17 @@ rbac:
 serviceAccountCreate: yes
 serviceAccount: strimzi-cluster-operator
 
-# Docker images that operator uses to provision various charts of Strimzi. To use your own registry prefix the
+# If you are using the grafana dashboard sidecar,
+# you can import some default dashboards here
+dashboards:
+  enabled: false
+  namespace: ~
+  label: grafana_dashboard # this is the default value from the grafana chart
+  labelValue: "1" # this is the default value from the grafana chart
+  annotations: {}
+  extraLabels: {}
+
+# Docker images that operator uses to provision various components of Strimzi. To use your own registry prefix the
 # repository name with your registry URL.
 # Ex) repository: registry.xyzcorp.com/strimzi/kafka
 kafka:
@@ -105,12 +117,6 @@ kafkaExporter:
     repository: ""
     name: kafka
     tagPrefix: ""
-jmxTrans:
-  image:
-    registry: ""
-    repository: ""
-    name: jmxtrans
-    tag: ""
 kafkaMirrorMaker2:
   image:
     registry: ""
