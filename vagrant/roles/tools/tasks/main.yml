@@ -1,0 +1,31 @@
+- name: Install snap-store
+  snap:
+    name: snap-store
+
+- name: Get default favorites left bar and add snap-store
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'snap-store_ubuntu-software.desktop']/"
+  register: new_favorites_bar
+
+- name: Set new favorites left bar
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
+
+- name: Install flameshot
+  apt:
+    name:
+      - flameshot
+    state: present
+
+- name: Get default favorites left bar and add flameshot
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'org.flameshot.Flameshot.desktop']/"
+  register: new_favorites_bar
+
+- name: Set new favorites left bar
+  become_user: "{{ user }}"
+  shell:
+    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"

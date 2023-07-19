@@ -30,3 +30,12 @@
 
   - role: kubernetes
     tags: [ optional, kubernetes ]
+
+  - role: python
+    tags: [ optional, python ]
+
+  - role: tools
+    tags: [ optional, tools ]
+
+  - role: java
+    tags: [ optional, java ]

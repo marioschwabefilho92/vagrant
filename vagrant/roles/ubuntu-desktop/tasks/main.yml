@@ -1,21 +1,24 @@
 - name: Install ubuntu-desktop
+  become: true
   apt:
     name:
       - ubuntu-desktop
     state: present
 
 - name: Upgrade the OS (apt-get full-upgrade)
-  ansible.builtin.apt:
+  become: true
+  apt:
     upgrade: full
 
 - name: Enable gdm
+  become: true
   systemd:
     name: gdm
     state: started
     enabled: yes
     daemon_reload: yes
 
-- name: Add the user group vboxsf
+- name: Add the user to group vboxsf
   user:
     name: '{{ user }}'
     groups: vboxsf
