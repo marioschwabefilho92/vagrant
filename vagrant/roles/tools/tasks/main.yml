@@ -2,30 +2,24 @@
   snap:
     name: snap-store
 
-- name: Get default favorites left bar and add snap-store
-  become_user: "{{ user }}"
-  shell:
-    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'snap-store_ubuntu-software.desktop']/"
-  register: new_favorites_bar
-
-- name: Set new favorites left bar
-  become_user: "{{ user }}"
-  shell:
-    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
-
 - name: Install flameshot
   apt:
     name:
       - flameshot
     state: present
 
-- name: Get default favorites left bar and add flameshot
+- name: Get default favorites left bar
   become_user: "{{ user }}"
   shell:
-    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'org.flameshot.Flameshot.desktop']/"
-  register: new_favorites_bar
+    cmd: gsettings get org.gnome.shell favorite-apps
+  register: favorites_bar
 
-- name: Set new favorites left bar
+- name: Add snap-store_ubuntu-software.desktop to favorites left bar if it is not present
   become_user: "{{ user }}"
-  shell:
-    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
+  when: "'snap-store_ubuntu-software.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} snap-store_ubuntu-software.desktop"
+
+- name: Add org.flameshot.Flameshot.desktop to favorites left bar if it is not present
+  become_user: "{{ user }}"
+  when: "'org.flameshot.Flameshot.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} org.flameshot.Flameshot.desktop"

@@ -34,7 +34,26 @@
     group: "{{ group }}"
     state: directory
 
-- name: Set default favorites left bar
+- name: Copy add_one_new_favorite_app.sh to scripts directory
+  copy:
+    src: ../../shared_files/add_one_new_favorite_app.sh
+    dest: "{{ add_one_favorite_app_path }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0744
+
+- name: Get default favorites left bar
   become_user: "{{ user }}"
   shell:
-    cmd: gsettings set org.gnome.shell favorite-apps "{{ favorite_apps }}"
+    cmd: gsettings get org.gnome.shell favorite-apps
+  register: favorites_bar
+
+- name: Add org.gnome.Terminal.desktop to favorites left bar if it is not present
+  become_user: "{{ user }}"
+  when: "'org.gnome.Terminal.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} org.gnome.Terminal.desktop"
+
+- name: Add org.gnome.Nautilus.desktop to favorites left bar if it is not present
+  become_user: "{{ user }}"
+  when: "'org.gnome.Nautilus.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} org.gnome.Nautilus.desktop"

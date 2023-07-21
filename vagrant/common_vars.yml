@@ -1,3 +1,4 @@
 group: vagrant
 user: vagrant
-scripts_directory: /home/{{ user }}/scripts
+scripts_directory: "/home/{{ user }}/scripts"
+add_one_favorite_app_path: "{{ scripts_directory }}/add_one_new_favorite_app.sh"

@@ -1,15 +1,15 @@
 - name: Install Visual Studio Code with option --classic
-  community.general.snap:
+  snap:
     name: code
     classic: true
 
-- name: Get default favorites left bar and add Visual Studio Code
+- name: Get default favorites left bar
   become_user: "{{ user }}"
   shell:
-    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'code_code.desktop']/"
-  register: new_favorites_bar
+    cmd: gsettings get org.gnome.shell favorite-apps
+  register: favorites_bar
 
-- name: Set new favorites left bar
+- name: Add code_code.desktop to favorites left bar if it is not present
   become_user: "{{ user }}"
-  shell:
-    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
+  when: "'code_code.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} code_code.desktop"

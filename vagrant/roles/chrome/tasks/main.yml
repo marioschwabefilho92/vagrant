@@ -20,13 +20,13 @@
     state: latest
     update_cache: true
 
-- name: Get default favorites left bar and add chrome
+- name: Get default favorites left bar
   become_user: "{{ user }}"
   shell:
-    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'google-chrome.desktop']/"
-  register: new_favorites_bar
+    cmd: gsettings get org.gnome.shell favorite-apps
+  register: favorites_bar
 
-- name: Set new favorites left bar
+- name: Add google-chrome.desktop to favorites left bar if it is not present
   become_user: "{{ user }}"
-  shell:
-    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
+  when: "'google-chrome.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} google-chrome.desktop"

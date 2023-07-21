@@ -1,15 +1,15 @@
 - name: Install pycharm-community with option --classic
-  community.general.snap:
+  snap:
     name: pycharm-community
     classic: true
 
-- name: Get default favorites left bar and add pycharm
+- name: Get default favorites left bar
   become_user: "{{ user }}"
   shell:
-    cmd: gsettings get org.gnome.shell favorite-apps | sed "s/.$/, 'pycharm-community_pycharm-community.desktop']/"
-  register: new_favorites_bar
+    cmd: gsettings get org.gnome.shell favorite-apps
+  register: favorites_bar
 
-- name: Set new favorites left bar
+- name: Add pycharm-community_pycharm-community.desktop to favorites left bar if it is not present
   become_user: "{{ user }}"
-  shell:
-    cmd: gsettings set org.gnome.shell favorite-apps "{{ new_favorites_bar.stdout }}"
+  when: "'pycharm-community_pycharm-community.desktop' not in favorites_bar.stdout"
+  shell: "{{ add_one_favorite_app_path }} pycharm-community_pycharm-community.desktop"
