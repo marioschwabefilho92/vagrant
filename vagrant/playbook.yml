@@ -13,6 +13,21 @@
   - role: user
     tags: [ required, user ]
 
+  - role: java
+    tags: [ required, java ]
+
+  - role: helm
+    tags: [ required, helm ]
+
+  - role: docker
+    tags: [ required, docker ]
+
+  - role: kubernetes
+    tags: [ required, kubernetes ]
+
+  - role: python
+    tags: [ required, python ]
+
   - role: firefox
     tags: [ optional, firefox ]
 
@@ -25,17 +40,5 @@
   - role: vscode
     tags: [ optional, vscode ]
 
-  - role: docker
-    tags: [ optional, docker ]
-
-  - role: kubernetes
-    tags: [ optional, kubernetes ]
-
-  - role: python
-    tags: [ optional, python ]
-
   - role: tools
     tags: [ optional, tools ]
-
-  - role: java
-    tags: [ optional, java ]

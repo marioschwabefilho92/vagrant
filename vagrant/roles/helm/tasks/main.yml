@@ -1,0 +1,12 @@
+- name: Download get_helm.sh
+  get_url:
+    url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    dest: "{{scripts_directory}}/get_helm.sh"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0700
+
+- name: Install helm
+  become_user: "{{ user }}"
+  shell:
+    cmd: bash {{scripts_directory}}/get_helm.sh
