@@ -8,17 +8,17 @@
         name: kafka
         state: present
 
-    - name: Install strimzi-kafka-operator helm chart
-      kubernetes.core.helm:
-        release_name: kafka
-        namespace: kafka
-        chart_ref: charts/strimzi-kafka-operator
-
     - name: Install CRDs
       kubernetes.core.k8s:
         src: "{{ item }}"
       with_fileglob:
         - "charts/strimzi-kafka-operator/crds/*"
+
+    - name: Install strimzi-kafka-operator helm chart
+      kubernetes.core.helm:
+        name: kafka
+        namespace: kafka
+        chart_ref: charts/strimzi-kafka-operator
 
     - name: Kafka persistent deployment
       kubernetes.core.k8s:

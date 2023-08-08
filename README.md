@@ -65,3 +65,9 @@ https://github.com/ahmetb/kubectx
 ```
 sudo snap install kubectx --classic
 ```
+
+# Delete
+```
+kubectl -n kafka delete $(kubectl get strimzi -o name -n kafka)
+kubectl -n kafka delete -f 'https://strimzi.io/install/latest?namespace=kafka'
+```

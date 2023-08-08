@@ -29,6 +29,34 @@
       - fzf
     state: present
 
+- name: Download k9s
+  get_url:
+    url: https://github.com/derailed/k9s/archive/refs/tags/v0.27.4.zip
+    dest: "{{scripts_directory}}/k9s.zip"
+
+- name: Ensure k9s directory exists
+  file:
+    path: "{{scripts_directory}}/k9s"
+    state: directory
+
+- name: Unarchive k9s
+  unarchive:
+    src: "{{scripts_directory}}/k9s.zip"
+    dest: "{{scripts_directory}}/k9s"
+
+- name: Install golang
+  apt:
+    name:
+      - golang
+    state: present
+
+- name: Upgrade all packages, autoclean and autoremove
+  become: true
+  apt:
+    autoclean: yes
+    autoremove: yes
+    upgrade: full
+
 - name: Install k9s
-  snap:
-    name: k9s
+  shell:
+    cmd: make -C {{scripts_directory}}/k9s/k9s-0.27.4 build && ./execs/k9s
