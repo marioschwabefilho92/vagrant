@@ -14,4 +14,4 @@
         namespace: kafka
         chart_ref: charts/kafka/kafka-ui
         values_files:
-        - charts/kafka/kafka-ui/data-stream-values.yaml
+        - charts/kafka/kafka-ui-values.yaml

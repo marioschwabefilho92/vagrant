@@ -12,13 +12,13 @@
       kubernetes.core.k8s:
         src: "{{ item }}"
       with_fileglob:
-        - "charts/strimzi-kafka-operator/crds/*"
+        - "charts/kafka/strimzi-kafka-operator/crds/*"
 
     - name: Install strimzi-kafka-operator helm chart
       kubernetes.core.helm:
         name: kafka
         namespace: kafka
-        chart_ref: charts/strimzi-kafka-operator
+        chart_ref: charts/kafka/strimzi-kafka-operator
 
     - name: Kafka persistent deployment
       kubernetes.core.k8s:
@@ -27,4 +27,4 @@
         namespace: kafka
         state: present
         template:
-          - charts/kafka/kafka-persistent.yaml
+          - charts/kafka/kafka.yaml
