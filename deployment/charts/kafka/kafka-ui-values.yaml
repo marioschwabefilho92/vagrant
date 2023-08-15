@@ -7,6 +7,10 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+service:
+  type: ClusterIP
+  port: 8080
+
 networkPolicy:
   enabled: true
   ingressRules:
@@ -14,13 +18,6 @@ networkPolicy:
       - ports:
         - port: 8080
           protocol: TCP
-
-probes:
-  useHttpsScheme: false
-
-service:
-  type: ClusterIP
-  port: 8080
 
 autoscaling:
   enabled: false

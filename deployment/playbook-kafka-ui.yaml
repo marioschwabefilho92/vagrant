@@ -15,3 +15,9 @@
         chart_ref: charts/kafka/kafka-ui
         values_files:
         - charts/kafka/kafka-ui-values.yaml
+
+    - name: Ingress for kafka-ui
+      kubernetes.core.k8s:
+        state: present
+        template:
+          - path: ./charts/kafka/kafka-ui-ingress.yaml
