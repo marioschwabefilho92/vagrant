@@ -3,13 +3,13 @@
   tasks:
     - name: Add stable chart repo kafka-ui
       kubernetes.core.helm_repository:
-        name: stable
+        name: kafka-ui
         repo_url: "https://provectus.github.io/kafka-ui-charts"
 
     - name: Install kafka-ui helm chart
       kubernetes.core.helm:
         name: kafka-ui
-        chart_ref: stable/kafka-ui
+        chart_ref: kafka-ui/kafka-ui
         chart_version: 0.7.2
         release_namespace: kafka
         create_namespace: true
