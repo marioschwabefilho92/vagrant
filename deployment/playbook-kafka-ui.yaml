@@ -1,20 +1,30 @@
 - name: kafka-ui
   hosts: localhost
   tasks:
-    - name: Ensure kafka namespace exists
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Namespace
-        name: kafka
-        state: present
+    - name: Add stable chart repo kafka-ui
+      kubernetes.core.helm_repository:
+        name: stable
+        repo_url: "https://provectus.github.io/kafka-ui-charts"
 
     - name: Install kafka-ui helm chart
       kubernetes.core.helm:
-        release_name: kafka-ui
-        namespace: kafka
-        chart_ref: charts/kafka/kafka-ui
+        name: kafka-ui
+        chart_ref: stable/kafka-ui
+        chart_version: 0.7.2
+        release_namespace: kafka
+        create_namespace: true
         values_files:
         - charts/kafka/kafka-ui-values.yaml
+
+    - name: Gather kafka-ui information
+      kubernetes.core.helm_info:
+        name: kafka-ui
+        release_namespace: kafka
+      register: kafka_ui_info
+
+    - name: Print kafka-ui information
+      debug:
+        msg: "{{ kafka_ui_info }}"
 
     - name: Ingress for kafka-ui
       kubernetes.core.k8s:

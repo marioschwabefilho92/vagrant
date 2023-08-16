@@ -1,15 +1,9 @@
 replicaCount: 1
 
-image:
-  registry: docker.io
-  repository: provectuslabs/kafka-ui
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
 service:
-  type: ClusterIP
+  type: NodePort
   port: 8080
+  targetPort: 8080
 
 networkPolicy:
   enabled: true
@@ -22,7 +16,7 @@ networkPolicy:
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 80
 
 env:
