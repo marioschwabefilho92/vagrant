@@ -11,7 +11,7 @@
         name: kafka-ui
         chart_ref: kafka-ui/kafka-ui
         chart_version: 0.7.2
-        release_namespace: default
+        release_namespace: kafka
         create_namespace: true
         values_files:
         - charts/kafka/kafka-ui-values.yaml
@@ -19,7 +19,7 @@
     - name: Gather kafka-ui information
       kubernetes.core.helm_info:
         name: kafka-ui
-        release_namespace: default
+        release_namespace: kafka
       register: kafka_ui_info
 
     - name: Print kafka-ui information

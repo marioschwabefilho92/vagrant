@@ -1,17 +1,19 @@
 replicaCount: 1
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8080
-  targetPort: 8080
+  targetPort: web
+  selector:
+    app: kafka-ui
 
-networkPolicy:
-  enabled: true
-  ingressRules:
-    customRules:
-      - ports:
-        - port: 8080
-          protocol: TCP
+# networkPolicy:
+#   enabled: true
+#   ingressRules:
+#     customRules:
+#       - ports:
+#         - port: 8080
+#           protocol: TCP
 
 autoscaling:
   enabled: false
