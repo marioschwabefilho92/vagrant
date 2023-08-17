@@ -1,5 +1,12 @@
 # data_streaming
 
+## Start
+```
+minikube start
+minikube addons enable ingress
+
+```
+
 ## Jenkins
 
 https://www.jenkins.io/doc/book/installing/kubernetes/
