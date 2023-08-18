@@ -1,33 +1,25 @@
-- name: kafka-ui
+- name: traefik
   hosts: localhost
   tasks:
-    - name: Add stable chart repo kafka-ui
+    - name: Add stable chart repo traefik
       kubernetes.core.helm_repository:
-        name: kafka-ui
-        repo_url: "https://provectus.github.io/kafka-ui-charts"
+        name: traefik
+        repo_url: "https://traefik.github.io/charts"
 
-    - name: Install kafka-ui helm chart
+    - name: Install traefik helm chart
       kubernetes.core.helm:
-        name: kafka-ui
-        chart_ref: kafka-ui/kafka-ui
-        chart_version: 0.7.2
-        release_namespace: kafka
+        name: traefik
+        chart_ref: traefik/traefik
+        chart_version: 24.0.0
+        release_namespace: default
         create_namespace: true
-        values_files:
-        - charts/kafka/kafka-ui-values.yaml
 
-    - name: Gather kafka-ui information
+    - name: Gather traefik information
       kubernetes.core.helm_info:
-        name: kafka-ui
-        release_namespace: kafka
-      register: kafka_ui_info
+        name: traefik
+        release_namespace: default
+      register: traefik_info
 
-    - name: Print kafka-ui information
+    - name: Print traefik information
       debug:
-        msg: "{{ kafka_ui_info }}"
-
-    - name: Ingress for kafka-ui
-      kubernetes.core.k8s:
-        state: present
-        template:
-          - path: ./charts/kafka/kafka-ui-ingress.yaml
+        msg: "{{ traefik_info }}"
