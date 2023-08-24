@@ -1,9 +1,0 @@
-env:
-  - name: KAFKA_CLUSTERS_0_NAME
-    value: "kafka"
-  - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
-    value: "kafka:9092"
-  - name: LOGGING_LEVEL_ROOT
-    value: "info"
-  - name: LOGGING_LEVEL_COM_PROVECTUS
-    value: "info"

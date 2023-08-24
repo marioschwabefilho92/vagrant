@@ -1,80 +1,44 @@
-# data_streaming
+# vagrant
 
-## Start
+## Purpose
+
+A common ubuntu dev environment for the data streaming project.
+
+## Prerequisites
+
+* Windows 10
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads) ≥ v7.0.8
+* [Vagrant](https://developer.hashicorp.com/vagrant/downloads) ≥ v2.3.7
+* [vagrant-disksize](https://github.com/sprotheroe/vagrant-disksize)
 ```
-minikube start
-minikube addons enable ingress
-
+vagrant plugin install vagrant-disksize
 ```
-
-## Jenkins
-
-https://www.jenkins.io/doc/book/installing/kubernetes/
-
-## deployment - strimzi-kafka-operator
-
-https://strimzi.io/
-https://github.com/strimzi/strimzi-kafka-operator
-
-## deployment - kafka-ui
-
-https://github.com/provectus/kafka-ui
-
-## pipeline - confluent-kafka-python
-
-https://github.com/confluentinc/confluent-kafka-python
-
-Install 
-
-https://kubernetes.io/docs/tasks/tools/
-
-Install minikube
-
+* [vagrant-timezone](https://github.com/tmatilai/vagrant-timezone)
 ```
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+vagrant plugin install vagrant-timezone
 ```
 
-Install kubectl
+## Installation
+
+1. Download/Clone this repository
+2. Open an ```ADMINISTRATOR Terminal``` into the downloaded/cloned repository, where the ```Vagrantfile``` is located <br/>
+3. Execute
 
 ```
-sudo snap install kubectl --classic
-kubectl version --client
+vagrant up
 ```
 
-Install Jenkins
-
-https://www.jenkins.io/doc/book/installing/kubernetes/
-https://github.com/jenkinsci/helm-charts/tree/main/charts/jenkins
-
-
-# Install Ansible
-
-https://docs.ansible.com/index.html
-https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible
+## Expand vdi
 
 ```
-python3 -m pip install --user ansible
+sudo cfdisk
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 ```
 
-# Install helm
+## Documentation
 
-https://github.com/helm/helm
-
-```
-sudo snap install helm --classic
-```
-
-# Install kubectx and kubens
-
-https://github.com/ahmetb/kubectx
-
-```
-sudo snap install kubectx --classic
-```
-
-# Delete
-```
-kubectl -n kafka delete $(kubectl get strimzi -o name -n kafka)
-kubectl -n kafka delete -f 'https://strimzi.io/install/latest?namespace=kafka'
-```
+* [Vagrantfile](https://developer.hashicorp.com/vagrant/docs/vagrantfile)
+* [Vagrantfile Settings](https://developer.hashicorp.com/vagrant/docs/vagrantfile/machine_settings)
+* [Ansible Playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks.html)
+* [Ansible Roles](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
