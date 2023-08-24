@@ -2,7 +2,7 @@
 
 ## Purpose
 
-A common ubuntu dev environment for the data streaming project.
+A common ubuntu dev environment.
 
 ## Prerequisites
 
@@ -34,6 +34,16 @@ vagrant up
 sudo cfdisk
 sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+```
+
+If necessary
+
+```
+sudo parted ---pretend-input-tty /dev/sda resizepart 3 100% 
+sudo partx -u /dev/sda 
+sudo pvresize /dev/sda3 
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
 
 ## Documentation
